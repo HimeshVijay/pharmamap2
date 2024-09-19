@@ -1,0 +1,169 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="index.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Hospital Search</title>
+    
+</head>
+
+<body>
+    <div class="wrapper">
+    <header>
+        <div class="logo">
+            <i class="fas fa-hospital"></i> <span>HealthCare Finder</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <h1>Hospital Search</h1>
+    <input type="text" id="location" placeholder="Enter location...">
+    <button onclick="searchHospitals()">Search</button>
+    <div id="hospital-list"></div>
+
+    <script>
+        // Function to search hospitals by location
+        function searchHospitals() {
+            const location = document.getElementById('location').value;
+            fetch(`/api/hospitals?location=${location}`)
+                .then(response => response.json())
+                .then(data => {
+                    const hospitalList = document.getElementById('hospital-list');
+                    hospitalList.innerHTML = '';
+                    data.forEach(hospital => {
+                        hospitalList.innerHTML += `
+                            <div>
+                                <h2>${hospital.name}</h2>
+                                <p>Location: ${hospital.location}</p>
+                                <p>Beds Available: ${hospital.bedsAvailable}</p>
+                                <button onclick="admitPatient(${hospital.id})">Admit Patient</button>
+                            </div>
+                            <hr>
+                        `;
+                    });
+                });
+        }
+
+        // Redirect to the admit page with the hospital ID
+        function admitPatient(hospitalId) {
+            window.location.href = `/admit?hospitalId=${hospitalId}`;
+        }
+    </script>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 HealthCare Finder. All Rights Reserved. Designed by <a href="/">HEHE</a></p>
+        </div>
+    </footer>
+</body>
+
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="index.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Pharmamap</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-hospital"></i> <span>Pharmamap</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <div class="container">
+            <h1>Hospital Search</h1>
+
+        <label for="dropdown-location">Select Location:</label>
+        <select id="dropdown-location" onchange="updateInputWithDropdown()">
+            <option value="" disabled selected>Select location</option>
+        </select>
+
+            <!-- Text input for custom location search -->
+            <input type="text" id="location" placeholder="Enter location or select from dropdown..."
+                class="search-input">
+
+            <!-- Search Button -->
+            <button onclick="searchHospitals()" class="search-btn"><i class="fas fa-search"></i> Search</button>
+
+            <!-- Hospital List -->
+            <div id="hospital-list"></div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <p>&copy; 2024 Pharmamap. All Rights Reserved. Designed by <a href="/">HEHE</a></p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Function to update the input field when a dropdown option is selected
+            function updateInputWithDropdown() {
+                const dropdown = document.getElementById('dropdown-location');
+                const selectedLocation = dropdown.value;
+                document.getElementById('location').value = selectedLocation;
+            }
+
+        // Function to search hospitals by location (either from dropdown or input field)
+        function searchHospitals() {
+            const location = document.getElementById('location').value;
+            if (!location) {
+                alert('Please enter or select a location.');
+                return;
+            }
+
+            fetch(`/api/hospitals?location=${location}`)
+                .then(response => response.json())
+                .then(data => {
+                    const hospitalList = document.getElementById('hospital-list');
+                    hospitalList.innerHTML = ''; // Clear previous results
+                    data.forEach(hospital => {
+                        hospitalList.innerHTML += `
+                            <div>
+                                <h2>${hospital.name}</h2>
+                                <p>Location: ${hospital.location}</p>
+                                <p>Beds Available: ${hospital.bedsAvailable}</p>
+                                <button onclick="admitPatient(${hospital.id})">Admit Patient</button>
+                            </div>
+                            <hr>
+                        `;
+                    });
+                });
+        }
+
+        // Redirect to the admit page with the hospital ID
+        function admitPatient(hospitalId) {
+            window.location.href = `/admit?hospitalId=${hospitalId}`;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Admit Patient</title>
+    <script>
+        // Function to handle form submission for admitting a patient
+        function admitPatient(event) {
+            event.preventDefault();
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const hospitalId = urlParams.get('hospitalId');
+            const patientName = document.getElementById('patientName').value;
+            const age = document.getElementById('age').value;
+            const illness = document.getElementById('illness').value;
+
+            // Send admission data to the server
+            fetch('/admit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ hospitalId, patientName, age, illness })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Patient admitted successfully!');
+                        window.location.href = '/index.html';  // Redirect back to hospital list
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                });
+        }
+    </script>
+</head>
+
+<body>
+    <div class="wrapper">
+    <header>
+        <div class="logo">
+            <i class="fas fa-hospital-user"></i> <span>Pharmamap</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <h1>Admit Patient</h1>
+    <form onsubmit="admitPatient(event)">
+        <label for="patientName">Patient Name:</label>
+        <input type="text" id="patientName" required><br><br>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" required><br><br>
+
+        <label for="illness">Illness:</label>
+        <input type="text" id="illness" required><br><br>
+
+        <button type="submit">Admit Patient</button>
+    </form>
+    <footer></footer>
+        <div class="container">
+            <p>&copy; 2024 Pharmamap. All Rights Reserved. Designed by <a href="/">HEHE</a></p>
+        </div>
+    </footer>
+</body>
+
+</html>
